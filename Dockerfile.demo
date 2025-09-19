@@ -1,0 +1,17 @@
+# Python 3.9 temel imajını kullan
+FROM python:3.9-slim
+
+# Çalışma dizinini ayarla
+WORKDIR /code
+
+# Bağımlılıkları yükle (sadece streamlit ve requests)
+RUN pip install --no-cache-dir streamlit requests
+
+# Demo uygulamasının kodunu kopyala
+COPY ./demo /code/demo
+
+# Streamlit'in çalışacağı portu dışarıya aç
+EXPOSE 8501
+
+# Konteyner çalıştığında Streamlit uygulamasını başlat
+CMD ["streamlit", "run", "demo/app.py", "--server.port=8501", "--server.address=0.0.0.0"]

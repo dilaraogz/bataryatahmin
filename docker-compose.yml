@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  # API Servisimiz
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: soh_api_service
+    ports:
+      - "8000:8000" # Bilgisayarımızın 8000 portunu konteynerin 8000 portuna bağla
+    volumes:
+      - ./outputs:/code/outputs # Model dosyalarını güncel tutmak için
+
+  # Demo (Arayüz) Servisimiz
+  demo:
+    build:
+      context: .
+      dockerfile: Dockerfile.demo
+    container_name: soh_demo_ui
+    ports:
+      - "8501:8501" # Bilgisayarımızın 8501 portunu konteynerin 8501 portuna bağla
+    depends_on:
+      - api # Demo başlamadan önce API'nin hazır olmasını bekle
